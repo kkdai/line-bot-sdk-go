@@ -245,6 +245,12 @@ type AccessTokensResponse struct {
 	AccessTokens []string `json:"access_tokens"`
 }
 
+type GroupSummaryResponse struct {
+	GroupID    string `json:"groupId"`
+	GroupName  string `json:"groupName"`
+	PictureURL string `json:"pictureUrl"`
+}
+
 func checkResponse(res *http.Response) error {
 	if isSuccess(res.StatusCode) {
 		return nil
@@ -507,6 +513,18 @@ func decodeToAccessTokensResponse(res *http.Response) (*AccessTokensResponse, er
 	}
 	decoder := json.NewDecoder(res.Body)
 	result := AccessTokensResponse{}
+	if err := decoder.Decode(&result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+func decodeToGroupSummaryResponse(res *http.Response) (*GroupSummaryResponse, error) {
+	if err := checkResponse(res); err != nil {
+		return nil, err
+	}
+	decoder := json.NewDecoder(res.Body)
+	result := GroupSummaryResponse{}
 	if err := decoder.Decode(&result); err != nil {
 		return nil, err
 	}

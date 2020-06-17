@@ -121,3 +121,29 @@ func (call *GetRoomMemberProfileCall) Do() (*UserProfileResponse, error) {
 	defer closeResponse(res)
 	return decodeToUserProfileResponse(res)
 }
+
+// GetGroupProfileCall type
+type GetGroupProfileCall struct {
+	c   *Client
+	ctx context.Context
+
+	groupID string
+	userID  string
+}
+
+// WithContext method
+func (call *GetGroupProfileCall) WithContext(ctx context.Context) *GetGroupProfileCall {
+	call.ctx = ctx
+	return call
+}
+
+// Do method
+func (call *GetGroupProfileCall) Do() (*GroupSummaryResponse, error) {
+	endpoint := fmt.Sprintf(APIEndpointGetGroupProfile, call.groupID)
+	res, err := call.c.get(call.ctx, call.c.endpointBase, endpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer closeResponse(res)
+	return decodeToGroupSummaryResponse(res)
+}
