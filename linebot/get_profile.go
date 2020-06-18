@@ -122,6 +122,14 @@ func (call *GetRoomMemberProfileCall) Do() (*UserProfileResponse, error) {
 	return decodeToUserProfileResponse(res)
 }
 
+// GetGroupProfile method
+func (client *Client) GetGroupProfile(groupID string) *GetGroupProfileCall {
+	return &GetGroupProfileCall{
+		c:       client,
+		groupID: groupID,
+	}
+}
+
 // GetGroupProfileCall type
 type GetGroupProfileCall struct {
 	c   *Client
